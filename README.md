@@ -180,6 +180,143 @@ These can be expressed aptly using `any`:
 
 Both `event.type` and `event.payload` are optional and entirely up to the rule creator to specify, provided they are valid JSON structures.
 
+## Configuring Go-Rules-Engine
+
+By default, the Rules Engine will panic if it is unable to find the value referenced by `identifier`:
+
+```go
+// rule
+{
+    "condition": {
+        "any": [
+            {
+                "identifier": "undefinedProperty",
+                "operator": "=",
+                "value": 0
+            },
+            {
+                "identifier": "playerBCards",
+                "operator": ">=",
+                "value": [20]
+            }
+        ]
+    },
+    "event": {
+        "type": "win"
+    }
+}
+
+game := map[string]interface{}{
+    "playerACards": 2,
+    "playerBCards": 20,
+}
+
+engine := ruleEngine.New(nil)
+engine.AddRule(string(rule))
+fmt.Printf("%+v", engine.EvaluateRules(game))
+// this will panic "value for identifier undefinedProperty not found" because the "undefinedProperty" identifier was not found in the game map.
+```
+
+If this is not the behaviour you want, you can switch this check off by passing an `options` struct to the `ruleEngine.New` constructor:
+
+```go
+...
+engine := ruleEngine.New(&ruleEngine.EvaluatorOptions{
+    AllowUndefinedVars: true,
+})
+...
+```
+
+Now, when Rules Engine encounters an undefined property, it will evaluate that statement to false and continue processing the rule.
+
+## Operators
+
+The following operators are available in Go-Rules-Engine:
+
+<table>
+    <thead>
+        <tr>
+            <th>Operator</th>
+            <th>Alias</th>
+            <th>Description</th>
+        </tr>        
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                =
+            </td>
+            <td>
+                eq
+            </td>
+            <td>
+                Equals (e.g 3 equals 3)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                !=
+            </td>
+            <td>
+                neq
+            </td>
+            <td>
+                Is not equal (e.g 3 is not equal to 4)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <
+            </td>
+            <td>
+                lt
+            </td>
+            <td>
+                Is less than (e.g 3 is less than 4)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                >
+            </td>
+            <td>
+                gt
+            </td>
+            <td>
+                Is greater than (e.g 5 is greater than 4)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <=
+            </td>
+            <td>
+                lte
+            </td>
+            <td>
+                Is less than or equal (e.g 5 is less than or equal to 6)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                >=
+            </td>
+            <td>
+                gte
+            </td>
+            <td>
+                Is greater than or equal (e.g 5 is greater than or equal to 3)
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+The following operators will be added in future:
+
+- Array contains (contains)
+- Array does not contain (!contains)
+- Support for adding custom operators
+
 ## Credits
 
 Special thanks to [@CacheControl](https://github.com/CacheControl) for his work on [json-rules-engine](https://github.com/CacheControl/json-rules-engine) which inspired this.
