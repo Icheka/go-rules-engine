@@ -1,11 +1,11 @@
 package ruleEngine
 
 import (
-	"github.com/Icheka/go-rule-engine/src/ast"
-	"github.com/Icheka/go-rule-engine/src/evaluator"
+	"github.com/Icheka/go-rules-engine/src/ast"
+	"github.com/Icheka/go-rules-engine/src/evaluator"
 )
 
-type results []bool
+type results []ast.Event
 
 type EvaluatorOptions struct {
 	AllowUndefinedVars bool
@@ -21,8 +21,8 @@ type RuleEngine struct {
 	Results results
 }
 
-func (re *RuleEngine) EvaluateStruct(jsonText string, fact evaluator.Data) bool {
-	return evaluator.EvaluateRule(ast.ParseJSON(jsonText), fact, &evaluator.Options{
+func (re *RuleEngine) EvaluateStruct(jsonText *ast.Rule, identifier evaluator.Data) bool {
+	return evaluator.EvaluateRule(jsonText, identifier, &evaluator.Options{
 		AllowUndefinedVars: re.AllowUndefinedVars,
 	})
 }
@@ -38,8 +38,12 @@ func (re *RuleEngine) AddRules(rules ...string) *RuleEngine {
 }
 
 func (re *RuleEngine) EvaluateRules(data evaluator.Data) results {
-	for _, rule := range re.Rules {
-		re.Results = append(re.Results, re.EvaluateStruct(rule, data))
+	for _, j := range re.Rules {
+		rule := ast.ParseJSON(j)
+
+		if re.EvaluateStruct(rule, data) {
+			re.Results = append(re.Results, rule.Event)
+		}
 	}
 	return re.Results
 }

@@ -3,13 +3,13 @@ package evaluator
 import (
 	"testing"
 
-	"github.com/Icheka/go-rule-engine/src/ast"
+	"github.com/Icheka/go-rules-engine/src/ast"
 )
 
 func TestEvaluateConditional(t *testing.T) {
 	tests := []struct {
 		conditional *ast.Conditional
-		fact        interface{}
+		identifier  interface{}
 		expected    bool
 	}{
 		{&ast.Conditional{
@@ -31,7 +31,7 @@ func TestEvaluateConditional(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		if ok := EvaluateConditional(tt.conditional, tt.fact); ok != tt.expected {
+		if ok := EvaluateConditional(tt.conditional, tt.identifier); ok != tt.expected {
 			t.Errorf("tests[%d] - expected EvaluateConditional to return %t, got=%t", i, tt.expected, ok)
 		}
 	}
@@ -41,14 +41,14 @@ func TestEvaluateAllCondition(t *testing.T) {
 	tests := []struct {
 		payload struct {
 			conditions []ast.Conditional
-			fact       Data
+			identifier Data
 		}
 		expected bool
 	}{
 		{
 			payload: struct {
 				conditions []ast.Conditional
-				fact       Data
+				identifier Data
 			}{
 				conditions: []ast.Conditional{
 					{
@@ -62,7 +62,7 @@ func TestEvaluateAllCondition(t *testing.T) {
 						Value:    "black",
 					},
 				},
-				fact: Data{
+				identifier: Data{
 					"planet": "Neptune",
 					"colour": "black",
 				},
@@ -72,7 +72,7 @@ func TestEvaluateAllCondition(t *testing.T) {
 		{
 			payload: struct {
 				conditions []ast.Conditional
-				fact       Data
+				identifier Data
 			}{
 				conditions: []ast.Conditional{
 					{
@@ -86,7 +86,7 @@ func TestEvaluateAllCondition(t *testing.T) {
 						Value:    "black",
 					},
 				},
-				fact: Data{
+				identifier: Data{
 					"planet": "Neptune",
 					"colour": "black",
 				},
@@ -96,7 +96,7 @@ func TestEvaluateAllCondition(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		if ok := EvaluateAllCondition(&tt.payload.conditions, tt.payload.fact); ok != tt.expected {
+		if ok := EvaluateAllCondition(&tt.payload.conditions, tt.payload.identifier); ok != tt.expected {
 			t.Errorf("tests[%d] - expected EvaluateAllCondition to be %t, got=%t", i, tt.expected, ok)
 		}
 	}
@@ -106,14 +106,14 @@ func TestEvaluateAnyCondition(t *testing.T) {
 	tests := []struct {
 		payload struct {
 			conditions []ast.Conditional
-			fact       Data
+			identifier Data
 		}
 		expected bool
 	}{
 		{
 			payload: struct {
 				conditions []ast.Conditional
-				fact       Data
+				identifier Data
 			}{
 				conditions: []ast.Conditional{
 					{
@@ -127,7 +127,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 						Value:    "black",
 					},
 				},
-				fact: Data{
+				identifier: Data{
 					"planet": "Neptune",
 					"colour": "black",
 				},
@@ -137,7 +137,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 		{
 			payload: struct {
 				conditions []ast.Conditional
-				fact       Data
+				identifier Data
 			}{
 				conditions: []ast.Conditional{
 					{
@@ -151,7 +151,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 						Value:    "black",
 					},
 				},
-				fact: Data{
+				identifier: Data{
 					"planet": "Neptune",
 					"colour": "black",
 				},
@@ -161,7 +161,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 		{
 			payload: struct {
 				conditions []ast.Conditional
-				fact       Data
+				identifier Data
 			}{
 				conditions: []ast.Conditional{
 					{
@@ -175,7 +175,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 						Value:    "white",
 					},
 				},
-				fact: Data{
+				identifier: Data{
 					"planet": "Neptune",
 					"colour": "black",
 				},
@@ -185,7 +185,7 @@ func TestEvaluateAnyCondition(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		if ok := EvaluateAnyCondition(&tt.payload.conditions, tt.payload.fact); ok != tt.expected {
+		if ok := EvaluateAnyCondition(&tt.payload.conditions, tt.payload.identifier); ok != tt.expected {
 			t.Errorf("tests[%d] - expected EvaluateAnyCondition to be %t, got=%t", i, tt.expected, ok)
 		}
 	}

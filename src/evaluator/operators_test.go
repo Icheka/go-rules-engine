@@ -4,10 +4,10 @@ import "testing"
 
 func TestEvaluateOperator(t *testing.T) {
 	tests := []struct {
-		fact     interface{}
-		value    interface{}
-		operator string
-		expected bool
+		identifier interface{}
+		value      interface{}
+		operator   string
+		expected   bool
 	}{
 		{"hi", "hi", "eq", true},
 		{"hi", "hi", "=", true},
@@ -34,7 +34,7 @@ func TestEvaluateOperator(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		ok, err := EvaluateOperator(tt.fact, tt.value, tt.operator)
+		ok, err := EvaluateOperator(tt.identifier, tt.value, tt.operator)
 		if err != nil {
 			t.Errorf("tests[%d] - unexpected error (%s)", i, err)
 		}

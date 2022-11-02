@@ -8,7 +8,7 @@ import (
 
 // Conditionals are the basic units of rules
 type Conditional struct {
-	Fact     string      `json:"fact"`
+	Fact     string      `json:"identifier"`
 	Operator string      `json:"operator"`
 	Value    interface{} `json:"value"`
 }
@@ -20,7 +20,7 @@ type Condition struct {
 	All []Conditional `json:"all"`
 }
 
-// Fired when a fact matches a rule
+// Fired when a identifier matches a rule
 type Event struct {
 	Type    string      `json:"type"`
 	Payload interface{} `json:"payload"`
@@ -40,7 +40,7 @@ func ParseJSON(j string) *Rule {
 	return rule
 }
 
-// Convert struct to map. Can be used to generate a fact (which has to be of type map[string]interface{}) from a struct.
+// Convert struct to map. Can be used to generate a identifier (which has to be of type map[string]interface{}) from a struct.
 func Mapify(s interface{}) map[string]interface{} {
 	return structs.Map(s)
 }

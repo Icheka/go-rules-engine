@@ -24,7 +24,7 @@ func TestParseJSON(t *testing.T) {
 	j := `{
 		"condition": {
 			"any": [{
-				"fact": "myVar",
+				"identifier": "myVar",
 				"operator": "eq",
 				"value": "hello world"
 			}]

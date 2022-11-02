@@ -4,22 +4,40 @@ import (
 	"fmt"
 )
 
-func EvaluateOperator(fact, value interface{}, operator string) (bool, error) {
+func EvaluateOperator(identifier, value interface{}, operator string) (bool, error) {
 	switch operator {
 	case "=":
 		fallthrough
 	case "eq":
-		return fact == value, nil
+		factNum, err := assertIsNumber(identifier)
+		if err == nil {
+			valueNum, err := assertIsNumber(value)
+			if err != nil {
+				return false, err
+			}
+			return factNum == valueNum, nil
+		}
+
+		return identifier == value, nil
 
 	case "!=":
 		fallthrough
 	case "neq":
-		return fact != value, nil
+		factNum, err := assertIsNumber(identifier)
+		if err == nil {
+			valueNum, err := assertIsNumber(value)
+			if err != nil {
+				return false, err
+			}
+			return factNum != valueNum, nil
+		}
+
+		return identifier != value, nil
 
 	case "<":
 		fallthrough
 	case "lt":
-		factNum, err := assertIsNumber(fact)
+		factNum, err := assertIsNumber(identifier)
 		if err != nil {
 			return false, err
 		}
@@ -33,7 +51,7 @@ func EvaluateOperator(fact, value interface{}, operator string) (bool, error) {
 	case ">":
 		fallthrough
 	case "gt":
-		factNum, err := assertIsNumber(fact)
+		factNum, err := assertIsNumber(identifier)
 		if err != nil {
 			return false, err
 		}
@@ -47,7 +65,7 @@ func EvaluateOperator(fact, value interface{}, operator string) (bool, error) {
 	case ">=":
 		fallthrough
 	case "gte":
-		factNum, err := assertIsNumber(fact)
+		factNum, err := assertIsNumber(identifier)
 		if err != nil {
 			return false, err
 		}
@@ -61,7 +79,7 @@ func EvaluateOperator(fact, value interface{}, operator string) (bool, error) {
 	case "<=":
 		fallthrough
 	case "lte":
-		factNum, err := assertIsNumber(fact)
+		factNum, err := assertIsNumber(identifier)
 		if err != nil {
 			return false, err
 		}

@@ -3,7 +3,7 @@ package evaluator
 import (
 	"fmt"
 
-	"github.com/Icheka/go-rule-engine/src/ast"
+	"github.com/Icheka/go-rules-engine/src/ast"
 )
 
 type Data map[string]interface{}
@@ -13,8 +13,8 @@ type Options struct {
 
 var options *Options
 
-func EvaluateConditional(conditional *ast.Conditional, fact interface{}) bool {
-	ok, err := EvaluateOperator(fact, conditional.Value, conditional.Operator)
+func EvaluateConditional(conditional *ast.Conditional, identifier interface{}) bool {
+	ok, err := EvaluateOperator(identifier, conditional.Value, conditional.Operator)
 	if err != nil {
 		panic(err)
 	}
@@ -28,7 +28,7 @@ func GetFactValue(condition *ast.Conditional, data Data) interface{} {
 		if options.AllowUndefinedVars {
 			return false
 		}
-		panic(fmt.Sprintf("value for fact %s not found", condition.Fact))
+		panic(fmt.Sprintf("value for identifier %s not found", condition.Fact))
 	}
 
 	return value
