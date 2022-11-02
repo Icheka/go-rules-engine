@@ -1,7 +1,6 @@
 package evaluator
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -12,6 +11,6 @@ func EvaluateOperator(fact, value interface{}, operator string) (bool, error) {
 	case "eq":
 		return fact == value, nil
 	default:
-		return false, errors.New(fmt.Sprintf("unrecognised operator %s", operator))
+		return false, fmt.Errorf("unrecognised operator %s", operator)
 	}
 }

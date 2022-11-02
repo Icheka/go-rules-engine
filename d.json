@@ -3,7 +3,7 @@
         "any": [{
             "fact": "name",
             "operator": "=",
-            "value": "icheka"
+            "value": 5
         }]
     },
     "event": {
