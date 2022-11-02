@@ -14,6 +14,23 @@ func TestEvaluateOperator(t *testing.T) {
 		{"hi", "his", "=", false},
 		{"hi", 4, "=", false},
 		{4, 4, "=", true},
+
+		{4, 4, "!=", false},
+		{4, 5, "neq", true},
+
+		{4, 5, "<", true},
+		{6, 5, "lt", false},
+
+		{4, 5, ">", false},
+		{6, 5, "gt", true},
+
+		{4, 5, ">=", false},
+		{6, 5, "gte", true},
+		{5, 5, "gte", true},
+
+		{4, 5, "<=", true},
+		{6, 5, "lte", false},
+		{5, 5, "lte", true},
 	}
 
 	for i, tt := range tests {
