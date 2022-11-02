@@ -1,0 +1,17 @@
+{
+    "condition": {
+        "any": [{
+            "fact": "myVar",
+            "operator": "eq",
+            "value": "hello world"
+        }]
+    },
+    "event": {
+        "type": "result",
+        "payload": {
+            "data": {
+                "say": "Hello World!"
+            }   
+        }
+    }
+}
