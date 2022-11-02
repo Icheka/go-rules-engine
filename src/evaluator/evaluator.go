@@ -7,6 +7,11 @@ import (
 )
 
 type Data map[string]interface{}
+type Options struct {
+	AllowUndefinedVars bool
+}
+
+var options *Options
 
 func EvaluateConditional(conditional *ast.Conditional, fact interface{}) bool {
 	ok, err := EvaluateOperator(fact, conditional.Value, conditional.Operator)
@@ -20,6 +25,9 @@ func GetFactValue(condition *ast.Conditional, data Data) interface{} {
 	value := data[condition.Fact]
 
 	if value == nil {
+		if options.AllowUndefinedVars {
+			return false
+		}
 		panic(fmt.Sprintf("value for fact %s not found", condition.Fact))
 	}
 
@@ -65,7 +73,8 @@ func EvaluateCondition(condition *[]ast.Conditional, kind string, data Data) boo
 	}
 }
 
-func EvaluateRule(rule *ast.Rule, data Data) bool {
+func EvaluateRule(rule *ast.Rule, data Data, opts *Options) bool {
+	options = opts
 	any, all := false, false
 
 	if len(rule.Condition.Any) == 0 {

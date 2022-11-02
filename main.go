@@ -4,20 +4,27 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Icheka/go-rule-engine/src/ast"
-	"github.com/Icheka/go-rule-engine/src/evaluator"
+	ruleEngine "github.com/Icheka/go-rule-engine/rule_engine"
 )
 
-func main() {
+func a() {
 	j, err := os.ReadFile("s.json")
 	if err != nil {
 		panic("not a valid file")
 	}
-	rule := ast.ParseJSON(string(j))
+	// rule := ast.ParseJSON(string(j))
 
 	fact := map[string]interface{}{
-		"myVar": "hello world",
+		"myVars": "hello worlds",
 	}
 
-	fmt.Println(evaluator.EvaluateRule(rule, fact))
+	// fmt.Println(evaluator.EvaluateRule(rule, fact))
+
+	fmt.Println(ruleEngine.New(&ruleEngine.EvaluatorOptions{
+		AllowUndefinedVars: true,
+	}).EvaluateStruct(string(j), fact))
+}
+
+func main() {
+	a()
 }
