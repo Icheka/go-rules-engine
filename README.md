@@ -317,6 +317,20 @@ The following operators will be added in future:
 - Array does not contain (!contains)
 - Support for adding custom operators
 
+## Converting Structs to Maps
+
+Although Go-Rules-Engine requires facts to be evaluated against rules to have a map[string]interface{} type, most Go code is designed and implemented around structs (not maps). Go-Rules-Engine provides a utility for converting your struct to a map:
+
+```go
+import "github.com/Icheka/go-rules-engine/ast"
+
+s := &MyStruct{
+    Name: "Icheka",
+}
+ast.Mapify(s)
+// map[Name:"Icheka"]
+```
+
 ## Credits
 
 Special thanks to [@CacheControl](https://github.com/CacheControl) for his work on [json-rules-engine](https://github.com/CacheControl/json-rules-engine) which inspired this.
