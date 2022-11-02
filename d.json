@@ -1,0 +1,17 @@
+{
+    "condition": {
+        "any": [{
+            "fact": "name",
+            "operator": "=",
+            "value": "icheka"
+        }]
+    },
+    "event": {
+        "type": "result",
+        "payload": {
+            "data": {
+                "name": "Icheka"
+            }   
+        }
+    }
+}

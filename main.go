@@ -8,21 +8,21 @@ import (
 )
 
 func a() {
-	j, err := os.ReadFile("s.json")
-	if err != nil {
-		panic("not a valid file")
-	}
+	a, _ := os.ReadFile("s.json")
+	b, _ := os.ReadFile("d.json")
+
 	// rule := ast.ParseJSON(string(j))
 
 	fact := map[string]interface{}{
-		"myVars": "hello worlds",
+		"myVar": "hello world",
+		"name":  "icheka",
 	}
 
 	// fmt.Println(evaluator.EvaluateRule(rule, fact))
 
 	fmt.Println(ruleEngine.New(&ruleEngine.EvaluatorOptions{
 		AllowUndefinedVars: true,
-	}).EvaluateStruct(string(j), fact))
+	}).AddRules(string(a), string(b)).EvaluateRules(fact))
 }
 
 func main() {
